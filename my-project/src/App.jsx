@@ -4,18 +4,27 @@ import './App.css'
 function App() {
   // tic-tac-toe app
   const [symbol, setSymbol] = useState('X');
+  let grid = [[],[],[]]
 
-  const buttonList = []
 
-  for(let i = 0; i < 3; i++){
-    buttonList.push(<button className='square' onClick={(e)=>handleSymbolChange(e)}></button>)
-  }
 
   function handleSymbolChange(e){
     setSymbol(s => s === 'X' ? '0' : 'X');
     e.target.textContent = symbol;
     e.target.disabled = true;
     return;
+  }
+
+  //  function to check grid for 3 symbols in a row vertically &
+  //  horizontally.
+  function gridCheck(arr){
+
+  }
+
+    const buttonList = []
+
+  for(let i = 0; i < 3; i++){
+    buttonList.push(<button className='square' onClick={(e)=>handleSymbolChange(e)}>&nbsp;</button>)
   }
 
   return (
