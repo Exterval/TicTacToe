@@ -35,6 +35,18 @@ function App() {
         console.log('Vertical Match')
       }
     }
+
+    // check column for diagonal match (0, 3, 8 & 2, 4, 6) * FIX
+    for(let i = 0; i < 3; i++){
+      console.log(arr[i] !== '', arr[i + 6], arr[i])
+      console.log(arr[i + 2], arr[i + 4], arr[i + 6])
+      if(arr[i + 2] === arr[i + 4] && arr[i+4] === arr[i + 6] && arr[i] !== ''){
+        console.log('Diagonal Match')
+      }
+    }
+    // arr[i] === arr[i + 4] && arr[i+4] === arr[i + 8]
+
+    
   }
 
   const buttonList = []
