@@ -5,14 +5,14 @@ function App() {
   // tic-tac-toe app
   const [symbol, setSymbol] = useState('X');
   const [board, setBoard] = useState(Array(9).fill(''));
+  const [gameOver, setGameOver] = useState(false);
 
   function handleSymbolChange(index){
-    if(board[index] !== '') return;
+    if(board[index] !== '' || gameOver) return;
     
     const newBoard = [...board];
     newBoard[index] = symbol;
     setBoard(newBoard);
-    console.log(newBoard)
     gridCheck(newBoard);
     setSymbol(s => s === 'X' ? 'O' : 'X');
   }
@@ -26,6 +26,8 @@ function App() {
       const start = i * 3;
       if(arr[start] === arr[start + 1] && arr[start + 1] === arr[start + 2] && arr[start] !== ''){
         console.log('Horizontal Match')
+        declareWinner()
+        return;
       }
     }
     
@@ -33,6 +35,8 @@ function App() {
     for(let i = 0; i < 3; i++){
       if(arr[i] === arr[i + 3] && arr[i + 3] === arr[i + 6] && arr[i] !== ''){
         console.log('Vertical Match')
+        declareWinner()
+        return;
       }
     }
 
@@ -40,7 +44,20 @@ function App() {
     if((arr[0] === arr[4] && arr[4] === arr[8] && arr[0] !== '' && arr[4] !== '' && arr[8] !== '') ||
       (arr[2] === arr[4] && arr[4] === arr[6] && arr[2] !== '' && arr[4] !== '' && arr[6] !== '')){
         console.log('Diagonal Match')
+        declareWinner()
+        return;
     } 
+  }
+
+  function handleReset(){
+    // resets grid
+    setBoard(Array(9).fill(''))
+    setSymbol('X')
+    setGameOver(false)
+  }
+
+  function declareWinner(){
+    setGameOver(true);
   }
 
   const buttonList = []
@@ -54,7 +71,7 @@ function App() {
     <>
       <div>
         <h1>Tic Tac Toe</h1>
-        <p>Next Player: {symbol}</p>
+        <p id='winner'>{gameOver ? `Winner: ${symbol}` : `Next Player: ${symbol}`}</p>
         <div id="gameUI">
           <div className="rowOne">
             {buttonList.slice(0, 3)}
@@ -66,6 +83,7 @@ function App() {
             {buttonList.slice(6, 9)}
           </div>
         </div>
+        <div id="reset"><button onClick={handleReset}>Reset</button></div>
       </div>
     </>
   )
