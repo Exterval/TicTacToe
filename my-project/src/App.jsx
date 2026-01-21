@@ -6,6 +6,14 @@ function App() {
   const [symbol, setSymbol] = useState('X');
   const [board, setBoard] = useState(Array(9).fill(''));
   const [gameOver, setGameOver] = useState(false);
+  const [noWinner, setNoWinner] = useState(false);
+
+  
+  const buttonList = []
+
+  for(let i = 0; i < 9; i++){
+    buttonList.push(<button key={i} className='square' onClick={()=>handleSymbolChange(i)}>{board[i]}</button>)
+  }
 
   function handleSymbolChange(index){
     if(board[index] !== '' || gameOver) return;
@@ -14,7 +22,6 @@ function App() {
     newBoard[index] = symbol;
     setBoard(newBoard);
     gridCheck(newBoard);
-    setSymbol(s => s === 'X' ? 'O' : 'X');
   }
 
   //  function to check grid for 3 symbols in a row vertically &
@@ -22,7 +29,6 @@ function App() {
   function gridCheck(arr){
     // check rows for horizontal match
     for(let i = 0; i < 3; i++){
-      console.log(arr)
       const start = i * 3;
       if(arr[start] === arr[start + 1] && arr[start + 1] === arr[start + 2] && arr[start] !== ''){
         console.log('Horizontal Match')
@@ -46,7 +52,12 @@ function App() {
         console.log('Diagonal Match')
         declareWinner()
         return;
-    } 
+    }
+    if(!board.includes('')){
+      setNoWinner(true);
+    }
+    setSymbol(s => s === 'X' ? 'O' : 'X'); 
+    console.log(board)
   }
 
   function handleReset(){
@@ -60,18 +71,13 @@ function App() {
     setGameOver(true);
   }
 
-  const buttonList = []
-
-  for(let i = 0; i < 9; i++){
-    buttonList.push(<button key={i} className='square' onClick={()=>handleSymbolChange(i)}>{board[i]}</button>)
-  }
 
 
   return (
     <>
-      <div>
+      <div id='layout'>
         <h1>Tic Tac Toe</h1>
-        <p id='winner'>{gameOver ? `Winner: ${symbol}` : `Next Player: ${symbol}`}</p>
+        {noWinner ? <p>Draw</p> : <p id='winner'>{gameOver ? `Winner : ${symbol}` : `Next Player: ${symbol}`}</p>}
         <div id="gameUI">
           <div className="rowOne">
             {buttonList.slice(0, 3)}
@@ -83,7 +89,7 @@ function App() {
             {buttonList.slice(6, 9)}
           </div>
         </div>
-        <div id="reset"><button onClick={handleReset}>Reset</button></div>
+        <div id="reset"><button onClick={handleReset} id="resetButton">Reset</button></div>
       </div>
     </>
   )
