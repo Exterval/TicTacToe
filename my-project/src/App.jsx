@@ -53,7 +53,7 @@ function App() {
         declareWinner()
         return;
     }
-    if(!board.includes('')){
+    if(!arr.includes('')){
       setNoWinner(true);
     }
     setSymbol(s => s === 'X' ? 'O' : 'X'); 
